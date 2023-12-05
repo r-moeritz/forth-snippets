@@ -11,12 +11,13 @@
 	swap begin dup c@ middle @ > while 1- repeat
 	2dup > 0= if 2dup exchange 1 -1 d+ then
 	2dup > ( until partitions cross )
-  until swap rot ( sort both pieces )
+  until
+  swap rot ( sort both pieces )
   2over 2over - -rot - < if 2swap then
   2dup < if recurse else 2drop then
   2dup < if recurse else 2drop then ;
 
-( example program 
+( example program
 
 hex
 
