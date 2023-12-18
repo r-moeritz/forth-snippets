@@ -5,13 +5,17 @@
 : exchange ( a1 a2 --- /swap bytes at a1 & a2 )
   2dup c@ swap c@ rot c! swap c! ;
 
-: sort ( l u --- /sort a byte array )
+: partition ( l u --- /partition a byte array )
   2dup 2dup over - 2/ + c@ middle ! ( pick middle one )
-  begin swap begin dup c@ middle @ < while 1+ repeat
-	swap begin dup c@ middle @ > while 1- repeat
-	2dup > 0= if 2dup exchange 1 -1 d+ then
-	2dup > ( until partitions cross )
-  until
+  begin
+    swap begin dup c@ middle @ < while 1+ repeat
+    swap begin dup c@ middle @ > while 1- repeat
+    2dup > 0= if 2dup exchange 1 -1 d+ then
+    2dup > ( until partitions cross )
+  until ;
+
+: sort ( l u --- /sort a byte array )
+  partition
   swap rot ( sort both pieces )
   2over 2over - -rot - < if 2swap then
   2dup < if recurse else 2drop then
